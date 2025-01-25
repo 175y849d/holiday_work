@@ -1,12 +1,12 @@
 package com.example;
 
-import jakarta.servlet.http.HttpServlet;
-
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.io.*;
+
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.*;
 
 public class addStudentServlet extends HttpServlet {
@@ -18,7 +18,7 @@ public class addStudentServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         // 获取用户输入的用户名和密码
-        int stuId = Integer.parseInt(request.getParameter("stuId"));
+        String stuId = request.getParameter("stuId");
         String stuName = request.getParameter("stuName");
         int stuAge = Integer.parseInt(request.getParameter("stuAge"));
         String stuGender = request.getParameter("stuGender");
@@ -56,7 +56,7 @@ public class addStudentServlet extends HttpServlet {
         }
     }
 
-    private boolean isStuIdExists(int StuId) {
+    private boolean isStuIdExists(String StuId) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -68,7 +68,7 @@ public class addStudentServlet extends HttpServlet {
             // SQL 查询语句
             String sql = "SELECT * FROM student WHERE 学号 = ?";
             stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, StuId);
+            stmt.setString(1, StuId);
             rs = stmt.executeQuery();
             return rs.next();
         } catch (ClassNotFoundException | SQLException e) {
@@ -85,7 +85,7 @@ public class addStudentServlet extends HttpServlet {
         }
     }
 
-    private boolean addStudentInfo(int stuId, String stuName, int stuAge, String stuGender, String stuNation, String stuProvince, String stuMajor, String stuClass) {
+    private boolean addStudentInfo(String stuId, String stuName, int stuAge, String stuGender, String stuNation, String stuProvince, String stuMajor, String stuClass) {
         Connection conn = null;
         PreparedStatement stmt = null;
         try {
@@ -96,7 +96,7 @@ public class addStudentServlet extends HttpServlet {
             // SQL 插入语句
             String sql = "INSERT INTO student (学号, 姓名, 年龄, 性别, 民族, 省份, 专业, 班级) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, stuId);
+            stmt.setString(1, stuId);
             stmt.setString(2, stuName);
             stmt.setInt(3, stuAge);
             stmt.setString(4, stuGender);

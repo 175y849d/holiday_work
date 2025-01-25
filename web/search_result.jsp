@@ -11,6 +11,18 @@
   <head>
     <title>Title</title>
       <style>
+          body {
+              font-family: Arial, sans-serif;
+              height: 100vh; /* 让背景图片充满整个视口高度 */
+              background-image: url('https://i.ibb.co/Z6CPsTT/preview.jpg'); /* 替换为你的背景图片地址 */
+              background-size: cover; /* 背景图片自适应整个页面 */
+              background-position: center; /* 背景图片居中 */
+              background-repeat: no-repeat; /* 防止图片重复 */
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+          }
           table {
               width: 60%;
               height: 200px;
@@ -52,7 +64,7 @@
                       Connection conn = null;
                       PreparedStatement stmt = null;
                       ResultSet rs = null;
-                      int stuId = Integer.parseInt(request.getParameter("stuId"));
+                  String stuId = request.getParameter("stuId");
 //                      String stuName = null;
 //                      int stuAge = 0;
 //                      String stuGender = null;
@@ -67,12 +79,12 @@
                       // SQL 查询语句
                       String sql = "SELECT * FROM student where 学号 = ?";
                       stmt = conn.prepareStatement(sql);
-                      stmt.setInt(1, stuId);
+                  stmt.setString(1, stuId);
                       rs = stmt.executeQuery();
                       while (rs.next()) {
                           out.println("<tbody>");
                           out.println("<tr>");
-                          out.println("<td>" + stuId + "</td>");
+                          out.println("<td>" + rs.getString("学号") + "</td>");
                           out.println("<td>" + rs.getString("姓名") + "</td>");
                           out.println("<td>" + rs.getInt("年龄") + "</td>");
                           out.println("<td>" + rs.getString("性别") + "</td>");

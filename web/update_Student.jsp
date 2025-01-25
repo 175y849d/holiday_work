@@ -22,7 +22,7 @@
       PreparedStatement stmt = null;
       ResultSet rs;
       try {
-          int stuId = Integer.parseInt(request.getParameter("stuId"));
+          String stuId = request.getParameter("stuId");
           String stuName = request.getParameter("stuName");
           int stuAge = 0;
           stuAge = Integer.parseInt(request.getParameter("stuAge"));
@@ -44,7 +44,7 @@
           pstmt.setString(5, stuProvince);
           pstmt.setString(6, stuMajor);
           pstmt.setString(7, stuClass);
-          pstmt.setInt(8, stuId);
+          pstmt.setString(8, stuId);
           // 执行 DELETE 语句
           int rowsAffected = pstmt.executeUpdate();
           if (rowsAffected > 0) {

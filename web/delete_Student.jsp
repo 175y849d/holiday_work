@@ -20,7 +20,7 @@
               PreparedStatement stmt = null;
               ResultSet rs;
               try {
-                  int stuId = Integer.parseInt(request.getParameter("stuId"));
+                  String stuId = request.getParameter("stuId");
                   // 建立数据库连接
                   conn = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
                   // 准备 DELETE 语句
@@ -28,13 +28,31 @@
                   PreparedStatement pstmt = conn.prepareStatement(sql);
                   // 设置参数
                   int studentId = 1; // 假设要删除的学生 ID 为 1
-                  pstmt.setInt(1, stuId);
+                  pstmt.setString(1, stuId);
                   // 执行 DELETE 语句
                   int rowsAffected = pstmt.executeUpdate();
                   if (rowsAffected > 0) {
-                      out.println("删除成功，受影响的行数: " + rowsAffected);
+                      response.getWriter().println("<html><body>");
+                      response.getWriter().println("<p>删除成功!</p>");
+                      // 使用 JavaScript 实现等待 3 秒后重定向
+                      response.getWriter().println("<script>");
+                      response.getWriter().println("setTimeout(function() {");
+                      response.getWriter().println("  window.location.href = 'main.jsp';");
+                      response.getWriter().println("}, 3000);");
+                      response.getWriter().println("</script>");
+                      response.getWriter().println("</body></html>");
+                      // 重定向到查询页面
+
                   } else {
-                      out.println("未找到要删除的记录");
+                      response.getWriter().println("<html><body>");
+                      response.getWriter().println("<p>未能删除!请重试...</p>");
+                      // 使用 JavaScript 实现等待 3 秒后重定向
+                      response.getWriter().println("<script>");
+                      response.getWriter().println("setTimeout(function() {");
+                      response.getWriter().println("  window.location.href = 'main.jsp';");
+                      response.getWriter().println("}, 3000);");
+                      response.getWriter().println("</script>");
+                      response.getWriter().println("</body></html>");
                   }
                   // 关闭资源
                   pstmt.close();
